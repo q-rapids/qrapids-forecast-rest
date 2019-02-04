@@ -1,0 +1,59 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.2.RELEASE'
+		snippetsDir = file('build/generated-snippets')
+	}
+	repositories {
+		mavenCentral()
+		jcenter()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.9.2'
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
+apply plugin: 'org.asciidoctor.convert'
+
+group = 'com.upc.gessi.qrapids'
+version = '0.1'
+sourceCompatibility = 1.8
+
+war {
+	baseName = 'qr-forecast-rest'
+	version =  version
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-starter-web')
+    compile ('org.nuiton.thirdparty:REngine:1.7-3')
+    compile ('org.nuiton.thirdparty:Rserve:1.7-3')
+	compile files('lib/qrapids_forecast-0.1.jar')
+	runtime('org.springframework.boot:spring-boot-devtools')
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc:2.0.3.RELEASE'
+	asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.3.RELEASE'
+
+	// comment this line to launch application from developing environment
+	// uncomment this line before generating .war file
+	// providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+}
+
+asciidoctor {
+	sourceDir = file('docs/asciidoc')
+	inputs.dir snippetsDir
+	outputDir = file('docs/asciidoc')
+	separateOutputDirs = false
+	dependsOn test
+}

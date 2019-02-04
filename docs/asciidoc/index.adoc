@@ -1,0 +1,20 @@
+= Forecast Api REST Documentation
+v1.0, {docdate}
+:toc: left
+
+:sectnums:
+
+== Introduction
+RESTful wrapper for forecast library
+
+== Endpoints
+
+=== Metrics forecasting
+Metrics forecasting
+
+operation::Metrics/Forecast[snippets='request-parameters,curl-request,response-fields,http-response']
+
+=== Factors forecasting
+Factors forecasting
+
+operation::Factors/Forecast[snippets='request-parameters,curl-request,response-fields,http-response']
