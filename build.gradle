@@ -27,6 +27,7 @@ sourceCompatibility = 1.8
 war {
 	baseName = 'qr-forecast-rest'
 	version =  version
+	enabled = true
 }
 
 repositories {
@@ -38,7 +39,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
     compile ('org.nuiton.thirdparty:REngine:1.7-3')
     compile ('org.nuiton.thirdparty:Rserve:1.7-3')
-	compile files('lib/qrapids_forecast-0.1.jar')
+	compile files('lib/qrapids-forecast-0.1.jar')
 	runtime('org.springframework.boot:spring-boot-devtools')
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

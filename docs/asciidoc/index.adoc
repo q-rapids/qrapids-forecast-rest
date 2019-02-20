@@ -9,6 +9,16 @@ RESTful wrapper for forecast library
 
 == Endpoints
 
+=== Forecast Techniques
+Forecast techniques
+
+operation::ForecastTechniques[snippets='curl-request,response-fields,http-response']
+
+=== Forecast Training
+Train the models for future forecasting
+
+operation::Train[snippets='request-parameters,curl-request,http-response']
+
 === Metrics forecasting
 Metrics forecasting
 
