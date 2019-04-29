@@ -49,7 +49,8 @@ public class ForecastService {
         return getForecast(host, port, path, user, pwd, indexFactors, factor, freq, horizon, technique);
     }
 
-    private List<ForecastDTO> getForecast(String host, String port, String path, String user, String pwd, String indexFactors, List<String> factor, String freq, String horizon, String technique) throws REXPMismatchException, REngineException {
+
+    private synchronized List<ForecastDTO> getForecast(String host, String port, String path, String user, String pwd, String indexFactors, List<String> factor, String freq, String horizon, String technique) throws REXPMismatchException, REngineException {
         try {
             Common.ForecastTechnique forecastTechnique = Common.ForecastTechnique.valueOf(technique);
             return connection.getConnection(host, port, path, user, pwd).multipleElementForecast(factor.toArray(new String[0]), indexFactors, freq, horizon, forecastTechnique);
