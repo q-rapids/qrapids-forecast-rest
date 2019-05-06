@@ -24,18 +24,27 @@ public class ForecastService {
     private Connection connection;
 
     @RequestMapping("api/ForecastTechniques")
-    public Common.ForecastTechnique[] getForecastTechniques () {
-        return Elastic_RForecast.getForecastTechniques();
+    public synchronized Common.ForecastTechnique[] getForecastTechniques (@RequestParam("host") String host, @RequestParam("port") String port, @RequestParam("path") String path, @RequestParam("user") String user, @RequestParam("pwd") String pwd) throws Exception {
+        return connection.getConnection(host, port, path, user, pwd).getForecastTechniques();
     }
 
     @RequestMapping("api/Train")
-    public void train(@RequestParam("host") String host, @RequestParam("port") String port, @RequestParam("path") String path, @RequestParam("user") String user, @RequestParam("pwd") String pwd, @RequestParam("index") String index, @RequestParam("elements") List<String> elements, @RequestParam("frequency") String freq) {
+    public void train(@RequestParam("host") String host, @RequestParam("port") String port, @RequestParam("path") String path, @RequestParam("user") String user, @RequestParam("pwd") String pwd, @RequestParam("index") String index, @RequestParam("elements") List<String> elements, @RequestParam("frequency") String freq, @RequestParam(value = "technique", required = false) String technique) {
         Elastic_RForecast elastic_rForecast = connection.getConnection(host, port, path, user, pwd);
-        for (Common.ForecastTechnique forecastTechnique : Common.ForecastTechnique.values()) {
-            try {
-                String[] result = elastic_rForecast.multipleElementTrain(elements.toArray(new String[0]), index, freq, forecastTechnique);
+        if (technique != null) {
+            Common.ForecastTechnique forecastTechnique = Common.ForecastTechnique.valueOf(technique);
+            trainTechnique(elastic_rForecast, elements, index, freq, forecastTechnique);
+        } else {
+            for (Common.ForecastTechnique forecastTechnique : Common.ForecastTechnique.values()) {
+                trainTechnique(elastic_rForecast, elements, index, freq, forecastTechnique);
             }
-            catch (Exception e) {}
+        }
+    }
+
+    private synchronized void trainTechnique (Elastic_RForecast elastic_rForecast, List<String> elements, String index, String freq, Common.ForecastTechnique forecastTechnique) {
+        try {
+            elastic_rForecast.multipleElementTrain(elements.toArray(new String[0]), index, freq, forecastTechnique);
+        } catch (Exception e) {
         }
     }
 

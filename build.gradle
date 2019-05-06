@@ -21,7 +21,7 @@ apply plugin: 'war'
 apply plugin: 'org.asciidoctor.convert'
 
 group = 'com.upc.gessi.qrapids'
-version = '0.2'
+version = '0.3'
 sourceCompatibility = 1.8
 
 war {
@@ -39,7 +39,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
     compile ('org.nuiton.thirdparty:REngine:1.7-3')
     compile ('org.nuiton.thirdparty:Rserve:1.7-3')
-	compile files('lib/qrapids-forecast-0.2.jar')
+	compile files('lib/qrapids-forecast-0.3.jar')
 	runtime('org.springframework.boot:spring-boot-devtools')
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

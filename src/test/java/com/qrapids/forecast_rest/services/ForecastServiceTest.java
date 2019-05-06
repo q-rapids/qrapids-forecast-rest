@@ -58,8 +58,23 @@ public class ForecastServiceTest {
 
     @Test
     public void getForecastTechniques() throws Exception {
+        String host = "host";
+        String port = "8080";
+        String path = "path";
+        String user = "user";
+        String pwd = "pwd";
+
+        Elastic_RForecast elastic_rForecast = mock(Elastic_RForecast.class);
+        when(connection.getConnection(host,port,path,user,pwd)).thenReturn(elastic_rForecast);
+        when(elastic_rForecast.getForecastTechniques()).thenReturn(Common.ForecastTechnique.values());
+
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get("/api/ForecastTechniques");
+                .get("/api/ForecastTechniques")
+                .param("host", host)
+                .param("port", port)
+                .param("path", path)
+                .param("user", user)
+                .param("pwd", pwd);
 
         this.mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
@@ -80,6 +95,11 @@ public class ForecastServiceTest {
                         responseFields(
                                 fieldWithPath("[]")
                                         .description("Forecast techiques"))));
+
+        verify(elastic_rForecast, times(1)).getForecastTechniques();
+        verifyNoMoreInteractions(elastic_rForecast);
+        verify(connection, times(1)).getConnection(host,port,path,user,pwd);
+        verifyNoMoreInteractions(connection);
     }
 
     @Test
