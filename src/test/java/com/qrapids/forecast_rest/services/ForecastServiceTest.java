@@ -112,6 +112,7 @@ public class ForecastServiceTest {
         String index = "indexMetrics";
         String[] elements = {"testperformance"};
         String frequency = "7";
+        String technique = "ETS";
 
         Elastic_RForecast elastic_rForecast = mock(Elastic_RForecast.class);
         when(connection.getConnection(host,port,path,user,pwd)).thenReturn(elastic_rForecast);
@@ -125,7 +126,8 @@ public class ForecastServiceTest {
                 .param("pwd", pwd)
                 .param("index", index)
                 .param("elements", elements)
-                .param("frequency", frequency);
+                .param("frequency", frequency)
+                .param("technique", technique);
 
         this.mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
@@ -148,10 +150,12 @@ public class ForecastServiceTest {
                                 parameterWithName("elements")
                                         .description("List of elements to forecast"),
                                 parameterWithName("frequency")
-                                        .description("Amount of days conforming the natural time period of the data samples")
+                                        .description("Amount of days conforming the natural time period of the data samples"),
+                                parameterWithName("technique")
+                                        .description("Technique to train. If not present, all techniques are trained.")
                         )));
 
-        verify(elastic_rForecast, times(Common.ForecastTechnique.values().length)).multipleElementTrain(eq(elements),eq(index),eq(frequency), any(Common.ForecastTechnique.class));
+        verify(elastic_rForecast, times(1)).multipleElementTrain(eq(elements),eq(index),eq(frequency), eq(Common.ForecastTechnique.ETS));
         verifyNoMoreInteractions(elastic_rForecast);
         verify(connection, times(1)).getConnection(host,port,path,user,pwd);
         verifyNoMoreInteractions(connection);

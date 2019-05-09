@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<meta name="author" content="v1.0, 2019-02-20">
+<meta name="author" content="v0.3, 2019-05-09">
 <title>Forecast Api REST Documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -435,7 +435,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Forecast Api REST Documentation</h1>
 <div class="details">
-<span id="author" class="author">v1.0, 2019-02-20</span><br>
+<span id="author" class="author">v0.3, 2019-05-09</span><br>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -473,7 +473,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_forecast_techniques_curl_request">Curl request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/ForecastTechniques' -i -X GET</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/ForecastTechniques?host=host&amp;port=8080&amp;path=path&amp;user=user&amp;pwd=pwd' -i -X GET</code></pre>
 </div>
 </div>
 </div>
@@ -565,6 +565,10 @@ Content-Length: 114
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>frequency</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Amount of days conforming the natural time period of the data samples</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>technique</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Technique to train. If not present, all techniques are trained.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -572,7 +576,7 @@ Content-Length: 114
 <h4 id="_forecast_training_curl_request">Curl request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/Train?host=host&amp;port=8080&amp;path=path&amp;user=user&amp;pwd=pwd&amp;index=indexMetrics&amp;elements=testperformance&amp;frequency=7' -i -X GET</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/Train?host=host&amp;port=8080&amp;path=path&amp;user=user&amp;pwd=pwd&amp;index=indexMetrics&amp;elements=testperformance&amp;frequency=7&amp;technique=ETS' -i -X GET</code></pre>
 </div>
 </div>
 </div>
@@ -880,7 +884,7 @@ Content-Length: 829
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-02-20 11:29:00 +0100
+Last updated 2019-05-09 09:35:33 +0200
 </div>
 </div>
 </body>

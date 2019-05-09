@@ -1,5 +1,5 @@
 = Forecast Api REST Documentation
-v1.0, {docdate}
+v0.3, {docdate}
 :toc: left
 
 :sectnums:
