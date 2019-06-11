@@ -25,9 +25,13 @@ gradlew war
 ```
 After the build is done the WAR file can be found at the __build/libs__ directory
 
+## How to deploy
+
+Available in the [Wiki](https://github.com/q-rapids/qrapids-forecast-rest/wiki)
+
 ## Documentation
 
-You can find the user documentation in the repository [Wiki](https://github.com/q-rapids/qrapids-forecast-rest/wiki) and the technical documentation of the RESTful API [here](https://q-rapids.github.io/qrapids-forecast-rest).
+You can find the user documentation in the repository  and the technical documentation of the RESTful API [here](https://q-rapids.github.io/qrapids-forecast-rest).
 
 ## Contributing
 
