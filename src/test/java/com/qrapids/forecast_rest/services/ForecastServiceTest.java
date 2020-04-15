@@ -434,4 +434,141 @@ public class ForecastServiceTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(status().reason(is("Forecast technique not supported")));
     }
+
+    @Test
+    public void getForecastSI() throws Exception {
+        String host = "host";
+        String port = "8080";
+        String path = "path";
+        String user = "user";
+        String pwd = "pwd";
+        String indexSIs = "indexSIs";
+        String[] si = {"blocking"};
+        String frequency = "7";
+        String horizon = "10";
+        String technique = "ETS";
+
+        ForecastDTO forecastDTO = new ForecastDTO();
+        forecastDTO.setId("blocking");
+        double[] lower80 = {0.6414524692520523,0.6310027287500249,0.6229788194502033,0.6162098305036225,0.6102422881085776,0.6048436667711347,0.5998758631263202};
+        forecastDTO.setLower80(lower80);
+        double[] lower95 = {0.6281052189200053,0.612123719944535,0.5998522096396154,0.5894999343947172,0.5803733658781132,0.5721168870347814,0.564519286994423};
+        forecastDTO.setLower95(lower95);
+        double[] mean = {0.6666660253129496,0.6666660253129496,0.6666660253129496,0.6666660253129496,0.6666660253129496,0.6666660253129496,0.6666660253129496};
+        forecastDTO.setMean(mean);
+        double[] upper80 = {0.6918795813738469,0.7023293218758743,0.7103532311756959,0.7171222201222767,0.7230897625173216,0.7284883838547646,0.733456187499579};
+        forecastDTO.setUpper80(upper80);
+        double[] upper95 = {0.705226831705894,0.7212083306813643,0.7334798409862838,0.7438321162311821,0.752958684747786,0.7612151635911178,0.7688127636314762};
+        forecastDTO.setUpper95(upper95);
+        ArrayList<ForecastDTO> forecastDTOArrayList = new ArrayList<>();
+        forecastDTOArrayList.add(forecastDTO);
+
+        Elastic_RForecast elastic_rForecast = mock(Elastic_RForecast.class);
+        when(connection.getConnection(host,port,path,user,pwd)).thenReturn(elastic_rForecast);
+        when(elastic_rForecast.multipleElementForecast(si,indexSIs,frequency,horizon, Common.ForecastTechnique.ETS)).thenReturn(forecastDTOArrayList);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/api/SIs/Forecast")
+                .param("host", host)
+                .param("port", port)
+                .param("path", path)
+                .param("user", user)
+                .param("pwd", pwd)
+                .param("index_strategic_indicator", indexSIs)
+                .param("si", si)
+                .param("frequency", frequency)
+                .param("horizon", horizon)
+                .param("technique", technique);
+
+        this.mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id", is("blocking")))
+                .andExpect(jsonPath("$[0].lower80", hasSize(7)))
+                .andExpect(jsonPath("$[0].lower80[0]", is(0.6414524692520523)))
+                .andExpect(jsonPath("$[0].lower95", hasSize(7)))
+                .andExpect(jsonPath("$[0].lower95[0]", is(0.6281052189200053)))
+                .andExpect(jsonPath("$[0].mean", hasSize(7)))
+                .andExpect(jsonPath("$[0].mean[0]", is(0.6666660253129496)))
+                .andExpect(jsonPath("$[0].upper80", hasSize(7)))
+                .andExpect(jsonPath("$[0].upper80[0]", is(0.6918795813738469)))
+                .andExpect(jsonPath("$[0].upper95", hasSize(7)))
+                .andExpect(jsonPath("$[0].upper95[0]", is(0.705226831705894)))
+                .andDo(document("SIs/Forecast",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(
+                                parameterWithName("host")
+                                        .description("ElasticSearch host"),
+                                parameterWithName("port")
+                                        .description("ElasticSearch port"),
+                                parameterWithName("path")
+                                        .description("ElasticSearch path"),
+                                parameterWithName("user")
+                                        .description("ElasticSearch user"),
+                                parameterWithName("pwd")
+                                        .description("ElasticSearch password"),
+                                parameterWithName("index_strategic_indicator")
+                                        .description("ElasticSearch name of strategic indicators index"),
+                                parameterWithName("si")
+                                        .description("List of strategic indicators to forecast"),
+                                parameterWithName("frequency")
+                                        .description("Amount of days conforming the natural time period of the data samples"),
+                                parameterWithName("horizon")
+                                        .description("Amount of days that the forecasting will cover"),
+                                parameterWithName("technique")
+                                        .description("Forecasting technique")
+                        ),
+                        responseFields(
+                                fieldWithPath("[].id")
+                                        .description("Strategic Indicator id"),
+                                fieldWithPath("[].lower80")
+                                        .description("Lower 80 confidence predicted interval"),
+                                fieldWithPath("[].lower95")
+                                        .description("Lower 95 confidence predicted interval"),
+                                fieldWithPath("[].mean")
+                                        .description("Mean confidence predicted interval"),
+                                fieldWithPath("[].upper80")
+                                        .description("Upper 80 confidence predicted interval"),
+                                fieldWithPath("[].upper95")
+                                        .description("Upper 95 confidence predicted interval"),
+                                fieldWithPath("[].error")
+                                        .description("Description of the forecasting error")
+                        )));
+
+        verify(elastic_rForecast, times(1)).multipleElementForecast(si,indexSIs,frequency,horizon, Common.ForecastTechnique.ETS);
+        verifyNoMoreInteractions(elastic_rForecast);
+        verify(connection, times(1)).getConnection(host,port,path,user,pwd);
+        verifyNoMoreInteractions(connection);
+    }
+
+    @Test
+    public void getForecastSIWrongTechnique () throws Exception {
+        String host = "host";
+        String port = "8080";
+        String path = "path";
+        String user = "user";
+        String pwd = "pwd";
+        String indexSIs = "indexSIs";
+        String[] si = {"blocking"};
+        String frequency = "7";
+        String horizon = "10";
+        String technique = "wrong";
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/api/SIs/Forecast")
+                .param("host", host)
+                .param("port", port)
+                .param("path", path)
+                .param("user", user)
+                .param("pwd", pwd)
+                .param("index_strategic_indicators", indexSIs)
+                .param("si", si)
+                .param("frequency", frequency)
+                .param("horizon", horizon)
+                .param("technique", technique);
+
+        this.mockMvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest())
+                .andExpect(status().reason(is("Forecast technique not supported")));
+    }
 }
