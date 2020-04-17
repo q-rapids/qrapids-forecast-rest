@@ -436,7 +436,7 @@ public class ForecastServiceTest {
     }
 
     @Test
-    public void getForecastSI() throws Exception {
+    public void getForecastStrategicIndicator() throws Exception {
         String host = "host";
         String port = "8080";
         String path = "path";
@@ -468,14 +468,14 @@ public class ForecastServiceTest {
         when(elastic_rForecast.multipleElementForecast(si,indexSIs,frequency,horizon, Common.ForecastTechnique.ETS)).thenReturn(forecastDTOArrayList);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get("/api/SIs/Forecast")
+                .get("/api/StrategicIndicators/Forecast")
                 .param("host", host)
                 .param("port", port)
                 .param("path", path)
                 .param("user", user)
                 .param("pwd", pwd)
-                .param("index_strategic_indicator", indexSIs)
-                .param("si", si)
+                .param("index_strategic_indicators", indexSIs)
+                .param("strategic_indicator", si)
                 .param("frequency", frequency)
                 .param("horizon", horizon)
                 .param("technique", technique);
@@ -507,9 +507,9 @@ public class ForecastServiceTest {
                                         .description("ElasticSearch user"),
                                 parameterWithName("pwd")
                                         .description("ElasticSearch password"),
-                                parameterWithName("index_strategic_indicator")
+                                parameterWithName("index_strategic_indicators")
                                         .description("ElasticSearch name of strategic indicators index"),
-                                parameterWithName("si")
+                                parameterWithName("strategic_indicator")
                                         .description("List of strategic indicators to forecast"),
                                 parameterWithName("frequency")
                                         .description("Amount of days conforming the natural time period of the data samples"),
@@ -542,7 +542,7 @@ public class ForecastServiceTest {
     }
 
     @Test
-    public void getForecastSIWrongTechnique () throws Exception {
+    public void getForecastStrategicIndicatorWrongTechnique () throws Exception {
         String host = "host";
         String port = "8080";
         String path = "path";
@@ -555,14 +555,14 @@ public class ForecastServiceTest {
         String technique = "wrong";
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get("/api/SIs/Forecast")
+                .get("/api/StrategicIndicators/Forecast")
                 .param("host", host)
                 .param("port", port)
                 .param("path", path)
                 .param("user", user)
                 .param("pwd", pwd)
                 .param("index_strategic_indicators", indexSIs)
-                .param("si", si)
+                .param("strategic_indicator", si)
                 .param("frequency", frequency)
                 .param("horizon", horizon)
                 .param("technique", technique);

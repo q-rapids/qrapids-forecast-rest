@@ -58,15 +58,15 @@ public class ForecastService {
         return getForecast(host, port, path, user, pwd, indexFactors, factor, freq, horizon, technique);
     }
 
-    @RequestMapping("/api/SIs/Forecast")
-    public List<ForecastDTO> getForecastSI(@RequestParam("host") String host, @RequestParam("port") String port, @RequestParam("path") String path, @RequestParam("user") String user, @RequestParam("pwd") String pwd, @RequestParam("index_strategic_indicators") String indexSIs, @RequestParam("si") List<String> si, @RequestParam("frequency") String freq, @RequestParam("horizon") String horizon, @RequestParam("technique") String technique) throws Exception {
+    @RequestMapping("/api/StrategicIndicators/Forecast")
+    public List<ForecastDTO> getForecastStrategicIndicator(@RequestParam("host") String host, @RequestParam("port") String port, @RequestParam("path") String path, @RequestParam("user") String user, @RequestParam("pwd") String pwd, @RequestParam("index_strategic_indicators") String indexSIs, @RequestParam("strategic_indicator") List<String> si, @RequestParam("frequency") String freq, @RequestParam("horizon") String horizon, @RequestParam("technique") String technique) throws Exception {
         return getForecast(host, port, path, user, pwd, indexSIs, si, freq, horizon, technique);
     }
 
-    private synchronized List<ForecastDTO> getForecast(String host, String port, String path, String user, String pwd, String indexFactors, List<String> factor, String freq, String horizon, String technique) throws REXPMismatchException, REngineException {
+    private synchronized List<ForecastDTO> getForecast(String host, String port, String path, String user, String pwd, String index, List<String> list, String freq, String horizon, String technique) throws REXPMismatchException, REngineException {
         try {
             Common.ForecastTechnique forecastTechnique = Common.ForecastTechnique.valueOf(technique);
-            return connection.getConnection(host, port, path, user, pwd).multipleElementForecast(factor.toArray(new String[0]), indexFactors, freq, horizon, forecastTechnique);
+            return connection.getConnection(host, port, path, user, pwd).multipleElementForecast(list.toArray(new String[0]), index, freq, horizon, forecastTechnique);
         }
         catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Forecast technique not supported");

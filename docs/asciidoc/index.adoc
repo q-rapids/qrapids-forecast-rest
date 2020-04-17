@@ -1,5 +1,5 @@
 = Forecast Api REST Documentation
-v0.3, {docdate}
+v0.4, {docdate}
 :toc: left
 
 :sectnums:
@@ -28,3 +28,9 @@ operation::Metrics/Forecast[snippets='request-parameters,curl-request,response-f
 Factors forecasting
 
 operation::Factors/Forecast[snippets='request-parameters,curl-request,response-fields,http-response']
+
+=== Strategic Indicators forecasting
+Strategic Indicators forecasting
+
+operation::SIs/Forecast[snippets='request-parameters,curl-request,response-fields,http-response']
+

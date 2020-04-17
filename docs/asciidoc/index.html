@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.8">
-<meta name="author" content="v0.3, 2019-05-09">
+<meta name="author" content="v0.4, 2020-04-17">
 <title>Forecast Api REST Documentation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -435,7 +435,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Forecast Api REST Documentation</h1>
 <div class="details">
-<span id="author" class="author">v0.3, 2019-05-09</span><br>
+<span id="author" class="author">v0.4, 2020-04-17</span><br>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -447,6 +447,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_forecast_training">2.2. Forecast Training</a></li>
 <li><a href="#_metrics_forecasting">2.3. Metrics forecasting</a></li>
 <li><a href="#_factors_forecasting">2.4. Factors forecasting</a></li>
+<li><a href="#_strategic_indicators_forecasting">2.5. Strategic Indicators forecasting</a></li>
 </ul>
 </li>
 </ul>
@@ -719,7 +720,7 @@ Content-Length: 114
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 832
+Content-Length: 840
 
 [ {
   "lower80" : [ 0.6414524692520523, 0.6310027287500249, 0.6229788194502033, 0.6162098305036225, 0.6102422881085776, 0.6048436667711347, 0.5998758631263202 ],
@@ -864,7 +865,7 @@ Content-Length: 832
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 829
+Content-Length: 837
 
 [ {
   "lower80" : [ 0.6414524692520523, 0.6310027287500249, 0.6229788194502033, 0.6162098305036225, 0.6102422881085776, 0.6048436667711347, 0.5998758631263202 ],
@@ -879,12 +880,157 @@ Content-Length: 829
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_strategic_indicators_forecasting">2.5. Strategic Indicators forecasting</h3>
+<div class="paragraph">
+<p>Strategic Indicators forecasting</p>
+</div>
+<div class="sect3">
+<h4 id="_strategic_indicators_forecasting_request_parameters">Request parameters</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>host</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ElasticSearch host</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>port</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ElasticSearch port</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>path</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ElasticSearch path</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>user</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ElasticSearch user</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pwd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ElasticSearch password</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>index_strategic_indicators</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ElasticSearch name of strategic indicators index</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>strategic_indicator</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of strategic indicators to forecast</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>frequency</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount of days conforming the natural time period of the data samples</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>horizon</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount of days that the forecasting will cover</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>technique</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Forecasting technique</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_strategic_indicators_forecasting_curl_request">Curl request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/api/StrategicIndicators/Forecast?host=host&amp;port=8080&amp;path=path&amp;user=user&amp;pwd=pwd&amp;index_strategic_indicators=indexSIs&amp;strategic_indicator=blocking&amp;frequency=7&amp;horizon=10&amp;technique=ETS' -i -X GET</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_strategic_indicators_forecasting_response_fields">Response fields</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Strategic Indicator id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].lower80</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lower 80 confidence predicted interval</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].lower95</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lower 95 confidence predicted interval</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].mean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Mean confidence predicted interval</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].upper80</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Upper 80 confidence predicted interval</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].upper95</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Upper 95 confidence predicted interval</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[].error</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description of the forecasting error</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_strategic_indicators_forecasting_http_response">HTTP response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 833
+
+[ {
+  "lower80" : [ 0.6414524692520523, 0.6310027287500249, 0.6229788194502033, 0.6162098305036225, 0.6102422881085776, 0.6048436667711347, 0.5998758631263202 ],
+  "lower95" : [ 0.6281052189200053, 0.612123719944535, 0.5998522096396154, 0.5894999343947172, 0.5803733658781132, 0.5721168870347814, 0.564519286994423 ],
+  "mean" : [ 0.6666660253129496, 0.6666660253129496, 0.6666660253129496, 0.6666660253129496, 0.6666660253129496, 0.6666660253129496, 0.6666660253129496 ],
+  "upper80" : [ 0.6918795813738469, 0.7023293218758743, 0.7103532311756959, 0.7171222201222767, 0.7230897625173216, 0.7284883838547646, 0.733456187499579 ],
+  "upper95" : [ 0.705226831705894, 0.7212083306813643, 0.7334798409862838, 0.7438321162311821, 0.752958684747786, 0.7612151635911178, 0.7688127636314762 ],
+  "id" : "blocking",
+  "error" : ""
+} ]</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-05-09 09:35:33 +0200
+Last updated 2020-04-17 12:02:58 +0200
 </div>
 </div>
 </body>
